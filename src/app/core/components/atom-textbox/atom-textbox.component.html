@@ -1,0 +1,82 @@
+<div
+  [ngClass]="{
+    'textbox gap-y-4 font-sans flex flex-col': true,
+    'textbox--has-label': !!label(),
+    'textbox--disabled': mutableDisabled(),
+    'textbox--readonly': readonly(),
+    'textbox--error': formControl.invalid && (touched$ | async) && showInvalid(),
+    'textbox--valid': formControl.valid && (touched$ | async) && showValid(),
+    'textbox--password': mutableType() === 'password'
+  }"
+  [class]="classes()"
+>
+  @if (label()) {
+    <label class="textbox__label">
+      <span>
+        {{ label() }}
+        @if (optionalText()) {
+          <span class="text-neutral-600 ml-4">({{ optionalText() }})</span>
+        }
+      </span>
+
+      <ng-content select="[be-atom-textbox-tooltip]"></ng-content>
+    </label>
+  }
+
+  @if (descriptionText()) {
+    <div class="textbox__description" [innerHTML]="descriptionText()"></div>
+  }
+
+  <div class="textbox__wrapper gap-x-8">
+    <input
+      [imask]="mask()"
+      [unmask]="unmask()"
+      [id]="inputId()"
+      [ngClass]="computedInputClasses()"
+      [class]="classes()"
+      [type]="mask() ? 'text' : mutableType()"
+      [disabled]="mutableDisabled()"
+      [readonly]="readonly()"
+      [required]="required()"
+      [placeholder]="placeholder()"
+      [attr.minlength]="minlength()"
+      [attr.maxlength]="maxlength()"
+      [(ngModel)]="innerValue"
+      (blur)="handleBlur()"
+      (focus)="handleFocus()"
+    />
+
+    @if (isPasswordInputType()) {
+      <button
+        type="button"
+        class="textbox__display button button--text-link text-sm"
+        (click)="togglePasswordVisibility()"
+      >
+        <span [class.d-none]="mutableType() === 'text'">{{ 'show' | transloco }}</span>
+        <span [class.d-none]="mutableType() === 'password'">{{ 'hide' | transloco }}</span>
+      </button>
+    }
+
+    <ng-content select="be-atom-button[right-section]"></ng-content>
+
+    @if (loading()) {
+      <be-atom-icon-loader classes="spin-animation shrink-0 w-18 h-18"></be-atom-icon-loader>
+    }
+
+    @if (formControl.valid && (touched$ | async) && showValid()) {
+      <be-atom-icon-check-circle classes="text-positive shrink-0 w-18 h-18"></be-atom-icon-check-circle>
+    }
+
+    @if (formControl.invalid && (touched$ | async) && showInvalid()) {
+      <be-atom-icon-alert-circle classes="text-negative shrink-0 w-18 h-18"></be-atom-icon-alert-circle>
+    }
+
+    <ng-content select="[right-section-icon]"></ng-content>
+  </div>
+
+  @if (helperText()) {
+    <div class="textbox__helper">{{ helperText() }}</div>
+  }
+
+  <be-atom-error-text></be-atom-error-text>
+</div>

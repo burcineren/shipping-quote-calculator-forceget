@@ -72,7 +72,7 @@ function minLengthValidator(minLength: number, translationKey: string) {
   };
 }
 
-export class McValidators {
+export class BeValidators {
   static email(control: AbstractControl): ValidationErrors | null {
     return regexValidator(control, REGEX_EMAIL, 'validation.email');
   }

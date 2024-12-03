@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, contentChild, input, outp
 import { AtomIconLoaderComponent } from '@beng-core/components/svg-icons/atom-icon-loader';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { AtomIconComponent } from '@beng-core/icons/atom-icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'be-atom-button',
   templateUrl: './atom-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgClass, NgTemplateOutlet, AtomIconLoaderComponent],
+  imports: [NgClass, NgTemplateOutlet, AtomIconLoaderComponent,NzButtonModule],
 })
 export class AtomButtonComponent {
   iconComponent = contentChild(AtomIconComponent);

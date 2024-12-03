@@ -1,4 +1,4 @@
-<button [type]="type()" [disabled]="disabled()" [ngClass]="computedClasses()" (click)="onClick.emit($event)">
+<button [type]="type()" [disabled]="disabled()" [ngClass]="computedClasses()" (click)="onClick.emit($event)" nz-button nzType="primary">
   <ng-content select="[left-section]"></ng-content>
 
   <span class="button__text">

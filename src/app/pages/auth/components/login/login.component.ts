@@ -5,7 +5,7 @@ import { AuthService } from '@beng-core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { LoginForm } from 'src/app/types/login-form';
-import { McValidators } from '@beng-core/utils/form-validators.utils';
+import { BeValidators } from '@beng-core/utils/form-validators.utils';
 import { OrganismLoginFormComponent } from 'src/app/components/organism-login-form/organism-login-form.component';
 
 @Component({
@@ -21,8 +21,8 @@ export class LoginComponent {
   private toastrService = inject(ToastrService);
 
   loginForm: FormGroup<LoginForm> = new FormGroup({
-    email: new FormControl('', McValidators.email),
-    password: new FormControl('', McValidators.required('validation.password')),
+    email: new FormControl('', BeValidators.email),
+    password: new FormControl('', BeValidators.required('validation.password')),
   });
 
   onSubmit() {

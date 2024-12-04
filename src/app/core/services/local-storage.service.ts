@@ -10,13 +10,13 @@ export class LocalStorageService {
   private cryptoService = inject(CryptoService);
   private readonly prefix = environment.config.localStoragePrefix;
 
-  get<T extends string>(key: LocalStorageKeysEnum): T {
+  get<T>(key: LocalStorageKeysEnum): T | null {
     const prefixedKey = this.getPrefixedKey(key);
     const storedItem = localStorage.getItem(prefixedKey);
 
     if (storedItem) {
       try {
-        return JSON.parse(this.cryptoService.decrypt(storedItem));
+        return JSON.parse(this.cryptoService.decrypt(storedItem)) as T;
       } catch (error) {
         console.error(`Error parsing JSON for key '${key}':`, error);
         return null;

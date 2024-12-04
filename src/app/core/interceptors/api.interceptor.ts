@@ -8,7 +8,7 @@ function buildHeaders(request: HttpRequest<unknown>): { [name: string]: string |
   const headers: { [name: string]: string | string[] } = {};
   const authService = inject(AuthService);
   const translocoService = inject(TranslocoService);
-  const token = authService.token;
+  const token = authService.getToken();
   const currentLang = translocoService.getActiveLang();
 
   if (!request.headers.has('Authorization') && token) {

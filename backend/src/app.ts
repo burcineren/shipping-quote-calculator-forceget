@@ -1,11 +1,21 @@
 import express from "express";
 import mongoose from "mongoose";
 import authRoutes from './routes/auth.route';
+import cors from "cors";
 
 const app = express();
 const PORT = 5500;
+
+const corsOptions = {
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use('/api/auth', authRoutes);
 
 mongoose

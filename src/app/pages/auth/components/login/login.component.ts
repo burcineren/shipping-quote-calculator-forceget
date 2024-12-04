@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '@beng-core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngxs/store';
+import { OrganismLoginFormComponent } from 'src/app/components/organism-login-form/organism-login-form.component';
 import { LoginForm } from 'src/app/types/login-form';
 import { BeValidators } from '@beng-core/utils/form-validators.utils';
-import { OrganismLoginFormComponent } from 'src/app/components/organism-login-form/organism-login-form.component';
+import { Login } from '@beng-core/states/auth-state';
 
 @Component({
   selector: 'be-login',
@@ -17,8 +18,8 @@ import { OrganismLoginFormComponent } from 'src/app/components/organism-login-fo
 })
 export class LoginComponent {
   private router = inject(Router);
-  private authService = inject(AuthService);
   private toastrService = inject(ToastrService);
+  private store = inject(Store);
 
   loginForm: FormGroup<LoginForm> = new FormGroup({
     email: new FormControl('', BeValidators.email),
@@ -31,10 +32,20 @@ export class LoginComponent {
       this.toastrService.error('Please enter a valid login form');
       return;
     }
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
 
-    this.authService.login(this.loginForm.value.email).subscribe(() => {
-      this.toastrService.success('login successful');
-      this.router.navigate(['/']);
-    });
+      this.store.dispatch(new Login({ email: email, password })).subscribe({
+        next: () => {
+          this.toastrService.success('Login successful');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Dispatch hatası:', err);
+          this.toastrService.error('Login failed. Please check your credentials.');
+        },
+      });
+    }
+
   }
 }

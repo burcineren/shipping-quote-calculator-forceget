@@ -1,10 +1,11 @@
 <form [formGroup]="formGroup" nz-form>
     <nz-form-item>
-      <nz-select formControlName="mode">
+      <!-- <nz-select formControlName="mode">
         <nz-option nzValue="mode" nzLabel="mode"></nz-option>
         <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
         <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
-      </nz-select>
+      </nz-select> -->
+      <be-atom-selectbox [value]="'mode'" [label]="'Mode'"></be-atom-selectbox>
     </nz-form-item>
   
     <nz-form-item>

@@ -3,12 +3,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AtomButtonComponent } from '@beng-core/components/atom-button';
+import { AtomSelectboxComponent } from '@beng-core/components/atom-selectbox/atom-selectbox.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
   selector: 'be-organism-offer-page',
-  imports: [NzSelectModule,NzFormModule,ReactiveFormsModule,CommonModule,AtomButtonComponent,RouterLink],
+  imports: [NzSelectModule,NzFormModule,ReactiveFormsModule,CommonModule,AtomButtonComponent,RouterLink,AtomSelectboxComponent],
   templateUrl: './organism-offer-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   

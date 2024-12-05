@@ -11,4 +11,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/home/home.routes').then((m) => m.HomeRoutes),
   },
+  
+  {
+    path: 'register',
+    // canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/register/register.routes').then((m) => m.RegisterRoutes),
+  },
 ];

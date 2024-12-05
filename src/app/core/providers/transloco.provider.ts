@@ -36,10 +36,13 @@ function translocoInitiliazerFactory(
 
   translocoService.setAvailableLangs(availableLangs);
 
-  function getLanguage() {
+  function getLanguage(): string {
     if (isDebugMode) {
-      const storedLang = localStorageService.get(LocalStorageKeysEnum.LANGUAGE);
-      if ((translocoService.getAvailableLangs() as string[]).includes(storedLang)) {
+      const storedLang = localStorageService.get<string>(LocalStorageKeysEnum.LANGUAGE);
+      if (
+        storedLang &&
+        (translocoService.getAvailableLangs() as string[]).includes(storedLang)
+      ) {
         return storedLang;
       }
     }

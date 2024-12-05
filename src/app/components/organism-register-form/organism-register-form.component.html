@@ -1,4 +1,39 @@
-<ng-container >
-    <h1>register</h1>
+<div class="login-container">
+  <div class="login-card">
+    <ng-container [formGroup]="formGroup">
+      <h2 class="login-title">{{ 'signUp' | transloco }}</h2>
 
-</ng-container>
+      <div class="form-group">
+        <be-atom-textbox
+          formControlName="email"
+          [label]="'email' | transloco"
+          [placeholder]="'placeholder.email' | transloco"
+        ></be-atom-textbox>
+      </div>
+
+      <div class="form-group">
+        <be-atom-textbox
+          type="password"
+          formControlName="password"
+          [label]="'password' | transloco"
+          [placeholder]="'placeholder.password' | transloco"
+        ></be-atom-textbox>
+      </div>
+      <div class="form-group">
+        <be-atom-textbox
+          type="password"
+          formControlName="confirmPassword"
+          [label]="'password' | transloco"
+          [placeholder]="'placeholder.confirmPassword' | transloco"
+        ></be-atom-textbox>
+      </div>
+
+      <div class="form-actions">
+        <be-atom-button nzType="primary" (onClick)="onSubmit.emit()">
+          {{ 'register' | transloco }}
+        </be-atom-button>
+      
+      </div>
+    </ng-container>
+  </div>
+</div>

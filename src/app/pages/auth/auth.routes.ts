@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './components/auth-layout/auth-layout.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const AuthRoutes: Routes = [
   {
@@ -9,6 +10,6 @@ export const AuthRoutes: Routes = [
     data: {
       title: 'clientRecord',
     },
-    children: [{ path: 'login', component: LoginComponent }],
+    children: [{ path: 'login', component: LoginComponent }, { path: 'register', component: RegisterComponent }],
   },
 ];

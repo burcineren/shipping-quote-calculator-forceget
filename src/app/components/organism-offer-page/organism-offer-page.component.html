@@ -1,0 +1,64 @@
+<form [formGroup]="formGroup" nz-form>
+    <nz-form-item>
+      <nz-select formControlName="mode">
+        <nz-option nzValue="mode" nzLabel="mode"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+  
+    <nz-form-item>
+      <nz-select formControlName="movementType">
+        <nz-option nzValue="movementType" nzLabel="movementType"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+  
+    <nz-form-item>
+      <nz-select formControlName="incoterms">
+        <nz-option nzValue="incoterms" nzLabel="incoterms"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+  
+    <nz-form-item>
+      <nz-select formControlName="countrieCities">
+        <nz-option nzValue="countrieCities" nzLabel="countrieCities"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-select formControlName="packageType">
+        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-select formControlName="unit1">
+        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-select formControlName="unit2">
+        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-select formControlName="currency">
+        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <be-atom-button nzType="default" >Save</be-atom-button>
+    </nz-form-item>
+  </form>

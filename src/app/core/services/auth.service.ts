@@ -14,7 +14,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private localStorageService: LocalStorageService
-  ) {}
+  ) { }
 
   /**
    * Login işlemi
@@ -24,15 +24,28 @@ export class AuthService {
   login(email: string, password: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap((response) => {
-       
         this.localStorageService.set(LocalStorageKeysEnum.AUTH_STATE, { token: response.token });
       })
     );
   }
 
   /**
-   * Logout işlemi
+   * Register işlemi
+   * @param email Kullanıcı email adresi
+   * @param password Kullanıcı şifresi
+   * @param confirmPassword Kullanıcı şifre doğrulama
    */
+  register(email: string, password: string, confirmPassword: string): Observable<{ token: string }> {
+    return this.http
+      .post<{ token: string }>(`${this.apiUrl}/register`, { email, password, confirmPassword })
+      .pipe(
+        tap((response) => {
+          // Başarılı kayıt sonrası token'ı saklıyoruz
+          this.localStorageService.set(LocalStorageKeysEnum.AUTH_STATE, { token: response.token });
+        })
+      );
+  }
+
   logout(): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
       tap(() => {
@@ -41,19 +54,11 @@ export class AuthService {
     );
   }
 
-  /**
-   * Token'ı alır
-   * @returns Kullanıcı token'ı veya null
-   */
   getToken(): string | null {
     const authState = this.localStorageService.get<{ token: string }>(LocalStorageKeysEnum.AUTH_STATE);
     return authState?.token || null;
   }
 
-  /**
-   * Kullanıcının oturum açıp açmadığını kontrol eder
-   * @returns true veya false
-   */
   isAuthenticated(): boolean {
     return !!this.getToken();
   }

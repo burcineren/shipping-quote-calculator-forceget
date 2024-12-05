@@ -1,6 +1,6 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { Login, Logout } from './auth.actions';
+import { Login, Logout, Register } from './auth.actions';
 import { tap } from 'rxjs/operators';
 import { LocalStorageKeysEnum } from '@beng-core/enums/local-storage-keys.enum';
 import { AuthService } from '@beng-core/services/auth.service';
@@ -31,6 +31,24 @@ export class AuthState {
     return state.token;
   }
 
+  @Action(Register)
+  register(ctx: StateContext<AuthStateModel>, action: Register) {
+    const { email, password, confirmPassword } = action.payload;
+
+    return this.authService.register(email, password, confirmPassword).pipe(
+      tap((response) => {
+        const newState: AuthStateModel = {
+          token: response.token,
+          isAuthenticated: true,
+        };
+        ctx.patchState(newState);
+
+        // LocalStorage'da kaydet
+        this.localStorageService.set(LocalStorageKeysEnum.AUTH_STATE, newState);
+      })
+    );
+  }
+
   @Action(Login)
   login(ctx: StateContext<AuthStateModel>, action: Login) {
     const { email, password } = action.payload;
@@ -42,17 +60,25 @@ export class AuthState {
           isAuthenticated: true,
         };
         ctx.patchState(newState);
+
+        // LocalStorage'da kaydet
+        this.localStorageService.set(LocalStorageKeysEnum.AUTH_STATE, newState);
       })
     );
   }
+
   @Action(Logout)
   logout(ctx: StateContext<AuthStateModel>) {
     return this.authService.logout().pipe(
       tap(() => {
-        ctx.setState({
+        const defaultState: AuthStateModel = {
           token: null,
           isAuthenticated: false,
-        });
+        };
+        ctx.setState(defaultState);
+
+        // LocalStorage'dan kaldır
+        this.localStorageService.remove(LocalStorageKeysEnum.AUTH_STATE);
       })
     );
   }

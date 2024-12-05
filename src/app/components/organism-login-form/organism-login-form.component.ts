@@ -4,13 +4,15 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { AtomButtonComponent } from '@beng-core/components/atom-button';
 import { AtomTextboxComponent } from '@beng-core/components/atom-textbox';
 import { LoginForm } from 'src/app/types/login-form';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'be-organism-login-form',
   standalone: true,
   templateUrl: './organism-login-form.component.html',
+  styleUrl: './organism-login-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AtomTextboxComponent, AtomButtonComponent, TranslocoPipe],
+  imports: [ReactiveFormsModule, AtomTextboxComponent, AtomButtonComponent, TranslocoPipe, RouterLink],
 })
 export class OrganismLoginFormComponent implements OnInit {
   private formGroupDirective = inject(FormGroupDirective);

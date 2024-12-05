@@ -17,6 +17,7 @@ import {
   output,
   signal,
   SimpleChanges,
+
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { nanoid } from 'nanoid';
@@ -24,7 +25,6 @@ import { InputMaskOptions } from '@beng-core/types/input-mask';
 import { getFormControlTouchedChanges$ } from '@beng-core/utils/form.utils';
 import { AtomButtonComponent } from '@beng-core/components/atom-button';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { IMaskModule } from 'angular-imask';
 import { AtomIconCheckCircleComponent } from '@beng-core/components/svg-icons/atom-icon-check-circle';
 import { AtomIconAlertCircleComponent } from '@beng-core/components/svg-icons/atom-icon-alert-circle';
@@ -32,6 +32,9 @@ import { AtomIconLoaderComponent } from '@beng-core/icons/atom-icon-loader';
 import { Observable, takeUntil } from 'rxjs';
 import { AtomErrorTextComponent } from '@beng-core/components/atom-error-text';
 import { injectDestroy } from '@beng-core/providers/inject-destroy.provider';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 type InputType = 'email' | 'number' | 'text' | 'password';
 
@@ -56,7 +59,9 @@ type InputType = 'email' | 'number' | 'text' | 'password';
     FormsModule,
     IMaskModule,
     NgClass,
-    TranslocoPipe,
+    NzInputModule,
+    NzIconModule,
+    NzButtonModule
   ],
 })
 export class AtomTextboxComponent implements ControlValueAccessor, AfterViewInit, AfterContentInit, OnChanges {
@@ -114,7 +119,7 @@ export class AtomTextboxComponent implements ControlValueAccessor, AfterViewInit
 
   onFocus = output<void>();
 
-  onTouchedCallback: () => void = () => {};
+  onTouchedCallback: () => void = () => { };
 
   computedInputClasses = computed(() => {
     return ['textbox__element', this.inputClasses()].filter(Boolean).join(' ');
@@ -124,7 +129,7 @@ export class AtomTextboxComponent implements ControlValueAccessor, AfterViewInit
   elRef = inject<ElementRef<HTMLElement>>(ElementRef);
   formControl = new FormControl();
   private ngControl: NgControl;
-  private onChangeCallback: (_: unknown) => void = () => {};
+  private onChangeCallback: (_: unknown) => void = () => { };
   private cdRef = inject(ChangeDetectorRef);
   private injector = inject(Injector);
   private destroy$ = injectDestroy();

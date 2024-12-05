@@ -44,16 +44,16 @@
       [(ngModel)]="innerValue"
       (blur)="handleBlur()"
       (focus)="handleFocus()"
+      nz-input
     />
 
     @if (isPasswordInputType()) {
       <button
-        type="button"
-        class="textbox__display button button--text-link text-sm"
+        nz-button nzType="primary" nzShape="circle"
         (click)="togglePasswordVisibility()"
       >
-        <span [class.d-none]="mutableType() === 'text'">{{ 'show' | transloco }}</span>
-        <span [class.d-none]="mutableType() === 'password'">{{ 'hide' | transloco }}</span>
+        <span [class.d-none]="mutableType() === 'text'"><span nz-icon nzType="eye" nzTheme="outline"></span></span>
+        <span [class.d-none]="mutableType() === 'password'"><span nz-icon nzType="eye-invisible" nzTheme="outline"></span></span>
       </button>
     }
 

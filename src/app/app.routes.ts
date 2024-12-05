@@ -9,12 +9,12 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/home/home.routes').then((m) => m.HomeRoutes),
+    loadChildren: () => import('./pages/offer-page/offer-page.routes').then((m) => m.OfferPageRoutes),
   },
-  
   {
-    path: 'register',
-    // canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/register/register.routes').then((m) => m.RegisterRoutes),
+    path: 'offer-list',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/offer-list/offer-list.routes').then((m) => m.OfferListRoutes),
   },
+  { path: '**', redirectTo: '/' },
 ];

@@ -2,6 +2,7 @@
   <div class="login-card">
     <ng-container [formGroup]="formGroup">
       <h2 class="login-title">{{ 'login' | transloco }}</h2>
+
       <div class="form-group">
         <be-atom-textbox
           formControlName="email"
@@ -25,9 +26,9 @@
         <be-atom-button nzType="primary" [disabled]="formGroup.invalid" (onClick)="onSubmit.emit()">
           {{ 'login' | transloco }}
         </be-atom-button>
-        <be-atom-button nzType="default" [routerLink]="['/register']">
+        <a nzType="default" [routerLink]="['/register']">
           {{ 'register' | transloco }}
-        </be-atom-button>
+        </a>
       </div>
     </ng-container>
   </div>

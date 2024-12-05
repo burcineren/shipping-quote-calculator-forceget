@@ -8,4 +8,4 @@ import { LayoutLoaderComponent } from '@beng-core/components/layout-loader';
   imports: [RouterOutlet, LayoutLoaderComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {}
+export class AppComponent { }

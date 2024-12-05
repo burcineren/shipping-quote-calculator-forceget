@@ -11,6 +11,8 @@ import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideNgxsStore } from '@beng-core/providers/ngxs-store.provider';
 import { provideTransloco } from '@beng-core/providers/transloco.provider';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
+import { EyeInvisibleOutline, EyeOutline } from '@ant-design/icons-angular/icons';
 if (environment.production) {
   enableProdMode();
 }
@@ -27,5 +29,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideToastr(),
     provideRouter(routes),
+    provideNzIcons([EyeInvisibleOutline, EyeOutline]),
   ],
 };

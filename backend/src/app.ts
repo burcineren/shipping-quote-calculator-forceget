@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/auth.route";
 import offerRoutes from "./routes/offer.route";
+import dimensionsRoutes from "./routes/dimensions.route";
 
 const app: Application = express();
 const PORT: number = 5500;
@@ -21,8 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRoutes); // Authentication routes
+app.use("/api/dimensions", dimensionsRoutes); 
 app.use("/api/offers", offerRoutes); // Offer management routes
-
 // MongoDB Connection
 mongoose
   .connect(

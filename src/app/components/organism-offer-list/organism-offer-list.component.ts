@@ -1,46 +1,58 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DxDataGridModule } from 'devextreme-angular';
-
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { OfferService } from '@beng-core/services/offer.service';
+import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'be-organism-offer-list',
   imports: [
-    DxDataGridModule,
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
+    
   ],
   templateUrl: './organism-offer-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismOfferListComponent {
-  dataSource = [
-    {
-      mode: 'AIR',
-      movementType: 'PORT TO PORT',
-      incoterms: 'DDP',
-      countriesCities: 'USA',
-      packageType: 'CARTONS',
-      unit1: '10IN',
-      unit2: '10LB',
-      currency: 'USD',
-    },
-    {
-      mode: 'LCL',
-      movementType: 'DOOR TO DOOR',
-      incoterms: 'DAT',
-      countriesCities: 'TURKEY',
-      packageType: 'BOXES',
-      unit1: '5CM',
-      unit2: '5KG',
-      currency: 'TRY',
-    },
+  displayedColumns: string[] = [
+    'mode',
+    'movementType',
+    'incoterms',
+    'countriesCities',
+    'packageType',
+    'unit1',
+    'unit2',
+    'currency',
   ];
+  dataSource = new MatTableDataSource<any>();
 
-  columns = [
-    { dataField: 'mode', caption: 'Mode' },
-    { dataField: 'movementType', caption: 'Movement Type' },
-    { dataField: 'incoterms', caption: 'Incoterms' },
-    { dataField: 'countriesCities', caption: 'Countries-Cities' },
-    { dataField: 'packageType', caption: 'Package Type' },
-    { dataField: 'unit1', caption: 'Unit-1' },
-    { dataField: 'unit2', caption: 'Unit-2' },
-    { dataField: 'currency', caption: 'Currency' },
-  ];
+  constructor(private offerService: OfferService, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    this.fetchOffers();
+  }
+
+  fetchOffers(): void {
+    this.offerService.getOffers().subscribe(
+      (offers) => {
+        this.dataSource.data = offers;
+        this.cdr.detectChanges(); // Ensure table updates
+      },
+      (error) => {
+        console.error('Error fetching offers:', error);
+      }
+    );
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

@@ -7,4 +7,5 @@ router.post("/", createOffer);
 
 router.get("/", getOffers);
 
+
 export default router;

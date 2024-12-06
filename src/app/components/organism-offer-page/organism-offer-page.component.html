@@ -1,65 +1,83 @@
-<form [formGroup]="formGroup" nz-form>
-    <nz-form-item>
-      <!-- <nz-select formControlName="mode">
-        <nz-option nzValue="mode" nzLabel="mode"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
-      </nz-select> -->
-      <be-atom-selectbox [value]="'mode'" [label]="'Mode'"></be-atom-selectbox>
-    </nz-form-item>
-  
-    <nz-form-item>
-      <nz-select formControlName="movementType">
-        <nz-option nzValue="movementType" nzLabel="movementType"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" nz-form [nzLayout]="'vertical'" class="offer-form">
+  <nz-form-item>
+    <nz-form-label nzFor="mode" nzRequired>Mode</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="mode" nzPlaceHolder="Select Mode">
+        <nz-option *ngFor="let mode of modes" [nzValue]="mode" [nzLabel]="mode"></nz-option>
       </nz-select>
-    </nz-form-item>
-  
-    <nz-form-item>
-      <nz-select formControlName="incoterms">
-        <nz-option nzValue="incoterms" nzLabel="incoterms"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="movementType" nzRequired>Movement Type</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="movementType" nzPlaceHolder="Select Movement Type">
+        <nz-option *ngFor="let movementType of movementTypes" [nzValue]="movementType" [nzLabel]="movementType">
+        </nz-option>
       </nz-select>
-    </nz-form-item>
-  
-    <nz-form-item>
-      <nz-select formControlName="countrieCities">
-        <nz-option nzValue="countrieCities" nzLabel="countrieCities"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="incoterms" nzRequired>Incoterms</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="incoterms" nzPlaceHolder="Select Incoterms">
+        <nz-option *ngFor="let incoterm of incoterms" [nzValue]="incoterm" [nzLabel]="incoterm"></nz-option>
       </nz-select>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-select formControlName="packageType">
-        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="countriesCities" nzRequired>Countries-Cities</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="countriesCities" [nzAutocomplete]="auto" placeholder="Type to search" />
+      <nz-autocomplete #auto>
+        <nz-auto-option *ngFor="let country of filteredCountries" [nzValue]="country">
+          {{ country }}
+        </nz-auto-option>
+      </nz-autocomplete>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="packageType" nzRequired>Package Type</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="packageType" nzPlaceHolder="Select Package Type">
+        <nz-option *ngFor="let type of packageTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
       </nz-select>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-select formControlName="unit1">
-        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="unit1" nzRequired>Unit - 1</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="unit1" nzPlaceHolder="Select Unit">
+        <nz-option *ngFor="let unit of unit1Options" [nzValue]="unit" [nzLabel]="unit"></nz-option>
       </nz-select>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-select formControlName="unit2">
-        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="unit2" nzRequired>Unit - 2</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="unit2" nzPlaceHolder="Select Unit">
+        <nz-option *ngFor="let unit of unit2Options" [nzValue]="unit" [nzLabel]="unit"></nz-option>
       </nz-select>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-select formControlName="currency">
-        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="currency" nzRequired>Currency</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="currency" nzPlaceHolder="Select Currency">
+        <nz-option *ngFor="let currency of currencies" [nzValue]="currency" [nzLabel]="currency"></nz-option>
       </nz-select>
-    </nz-form-item>
-    <nz-form-item>
-      <be-atom-button nzType="default"  [routerLink]="['/offer-list']" >Save</be-atom-button>
-    </nz-form-item>
-  </form>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" htmlType="submit">Save</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

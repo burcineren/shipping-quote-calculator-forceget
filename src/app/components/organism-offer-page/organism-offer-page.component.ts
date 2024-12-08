@@ -39,6 +39,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
   standalone:true,
   templateUrl: './organism-offer-page.component.html',
+  styleUrls: ['./organism-offer-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganismOfferPageComponent {
@@ -66,7 +67,7 @@ export class OrganismOfferPageComponent {
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      mode: [''],
+      mode: ['', Validators.required],
       movementType: ['', Validators.required],
       incoterms: ['', Validators.required],
       countriesCities: ['', Validators.required],

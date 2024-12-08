@@ -43,7 +43,7 @@ export class OrganismOfferListComponent {
     this.offerService.getOffers().subscribe(
       (offers) => {
         this.dataSource.data = offers;
-        this.cdr.detectChanges(); // Ensure table updates
+        this.cdr.detectChanges(); 
       },
       (error) => {
         console.error('Error fetching offers:', error);

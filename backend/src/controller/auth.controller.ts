@@ -5,7 +5,6 @@ import bcrypt from 'bcrypt';
 
 export const register = async (req: Request, res: Response) => {
 
-  console.log("req.body::",req.body);
   const { email, password, confirmPassword } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);

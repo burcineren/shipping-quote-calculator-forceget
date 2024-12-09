@@ -38,7 +38,7 @@ export const createOffer = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    const newOffer: IOffer = new Offer({ ...offerData, packageType, boxCount, palletCount });
+    const newOffer: IOffer = new Offer({ ...offerData, mode, packageType, boxCount, palletCount });
     const savedOffer = await newOffer.save();
     res.status(201).json(savedOffer);
   } catch (error) {

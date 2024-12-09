@@ -14,7 +14,7 @@ export interface IOffer extends Document {
 }
 
 const OfferSchema: Schema = new Schema({
-  mode: { type: String, required: false },
+  mode: { type: String, required: true },
   movementType: { type: String, required: true },
   incoterms: { type: String, required: true },
   countriesCities: { type: String, required: true },

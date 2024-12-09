@@ -23,26 +23,24 @@ export const authenticate = (req: Request, res: Response, next: NextFunction):vo
 }; export const unAuth = (req: Request, res: Response, next: NextFunction):void=> {
     const authHeader = req.headers.authorization;
 
-    // Authorization header yoksa kimliği doğrulanmamış kabul et
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        next(); // Middleware zincirine devam et
+        next(); 
         return;
     }
 
     const token = authHeader.split(' ')[1];
 
     try {
-        // Token doğrulanabiliyorsa kullanıcı giriş yapmıştır, erişimi engelle
         const decoded = verifyToken(token);
         res.status(403).json({
             error: 'You are already authenticated. Logout to perform this action.',
-            user: decoded, // İsteğe bağlı: Kullanıcı bilgilerini dönebilirsiniz
+            user: decoded, 
             
         });
         return;
     } catch (error) {
-        // Token geçersizse kimliği doğrulanmamış kabul et
-        next(); // Middleware zincirine devam et
+        
+        next(); 
         return;
     }
 };

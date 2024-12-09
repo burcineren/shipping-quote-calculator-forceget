@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt.util';
 
-export const authenticate = (req: Request, res: Response, next: NextFunction):void => {
-    const authHeader = req.headers.authorization;
+export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
 
+    const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         res.status(401).json({ error: 'Authorization header missing or invalid' });
         return;
@@ -15,16 +15,15 @@ export const authenticate = (req: Request, res: Response, next: NextFunction):vo
         const decoded = verifyToken(token);
         req.body.user = decoded;
         next();
-        return;
     } catch (error) {
         res.status(403).json({ error: 'Invalid or expired token' });
-        return;
     }
-}; export const unAuth = (req: Request, res: Response, next: NextFunction):void=> {
+};
+export const unAuth = (req: Request, res: Response, next: NextFunction): void => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        next(); 
+        next();
         return;
     }
 
@@ -34,13 +33,13 @@ export const authenticate = (req: Request, res: Response, next: NextFunction):vo
         const decoded = verifyToken(token);
         res.status(403).json({
             error: 'You are already authenticated. Logout to perform this action.',
-            user: decoded, 
-            
+            user: decoded,
+
         });
         return;
     } catch (error) {
-        
-        next(); 
+
+        next();
         return;
     }
 };

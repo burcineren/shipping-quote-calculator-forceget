@@ -67,3 +67,8 @@ To start the backend, follow these steps:
    ```bash
     node dist/app.js
    ```
+
+
+<!-- code gif-->
+<img align="center" alt="GIF" src="./login.gif"  />
+<img align="center" alt="GIF" src="./form.gif" />

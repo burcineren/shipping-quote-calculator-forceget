@@ -13,17 +13,30 @@ export class LocalStorageService {
   get<T>(key: LocalStorageKeysEnum): T | null {
     const prefixedKey = this.getPrefixedKey(key);
     const storedItem = localStorage.getItem(prefixedKey);
-
+  
     if (storedItem) {
       try {
-        return JSON.parse(this.cryptoService.decrypt(storedItem)) as T;
+        const decrypted = this.cryptoService.decrypt(storedItem);
+        const parsed = JSON.parse(decrypted);
+  
+        if (this.isType<T>(parsed)) {
+          return parsed;
+        } else {
+          console.error(`Type mismatch for key '${key}'. Expected type does not match.`);
+          return null;
+        }
       } catch (error) {
-        console.error(`Error parsing JSON for key '${key}':`, error);
+        console.error(`Error decrypting or parsing value for key '${key}':`, error);
         return null;
       }
     } else {
       return null;
     }
+  }
+  
+  private isType<T>(value: any): value is T {
+    // Tip doğrulama için ek mantık yazabilirsiniz
+    return true; // Her durumda "true" döndürür. Gerekirse özel doğrulama ekleyin.
   }
 
   set<T>(key: LocalStorageKeysEnum, value: T): void {

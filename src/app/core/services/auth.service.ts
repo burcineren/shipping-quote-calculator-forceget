@@ -32,11 +32,12 @@ export class AuthService {
    * @param confirmPassword Kullanıcı şifre doğrulama
    */
   register(email: string, password: string, confirmPassword: string): Observable<{ token: string }> {
-    return this.http
-      .post<{ token: string }>(`${this.apiUrl}/register`, { email, password, confirmPassword })
-      ;
+    return this.http.post<{ token: string }>(`${this.apiUrl}/register`, { email, password, confirmPassword })
+      .pipe(
+        tap(response => console.log("token::", response.token))
+      );
   }
-
+  
   logout(): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
       tap(() => {

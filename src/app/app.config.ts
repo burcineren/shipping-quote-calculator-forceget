@@ -20,7 +20,12 @@ if (environment.production) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
-    provideHttpClient(withInterceptors([ApiInterceptor, ErrorInterceptor, withHttpCacheInterceptor()])),
+    provideHttpClient(withInterceptors([
+      ApiInterceptor,
+      ErrorInterceptor,
+      withHttpCacheInterceptor(),
+    ])
+    ),
     provideHttpCache({
       strategy: 'explicit',
     }),

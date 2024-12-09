@@ -22,11 +22,7 @@ export class AuthService {
    * @param password Kullanıcı şifresi
    */
   login(email: string, password: string): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { email, password }).pipe(
-      tap((response) => {
-        this.localStorageService.set(LocalStorageKeysEnum.AUTH_STATE, { token: response.token });
-      })
-    );
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { email, password });
   }
 
   /**
@@ -38,12 +34,7 @@ export class AuthService {
   register(email: string, password: string, confirmPassword: string): Observable<{ token: string }> {
     return this.http
       .post<{ token: string }>(`${this.apiUrl}/register`, { email, password, confirmPassword })
-      .pipe(
-        tap((response) => {
-          // Başarılı kayıt sonrası token'ı saklıyoruz
-          this.localStorageService.set(LocalStorageKeysEnum.AUTH_STATE, { token: response.token });
-        })
-      );
+      ;
   }
 
   logout(): Observable<void> {

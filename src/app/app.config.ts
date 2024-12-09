@@ -13,6 +13,7 @@ import { provideNgxsStore } from '@beng-core/providers/ngxs-store.provider';
 import { provideTransloco } from '@beng-core/providers/transloco.provider';
 import { provideNzIcons } from 'ng-zorro-antd/icon';
 import { EyeInvisibleOutline, EyeOutline } from '@ant-design/icons-angular/icons';
+import { AuthInterceptor } from '@beng-core/interceptors/auth.interceptor';
 if (environment.production) {
   enableProdMode();
 }
@@ -35,5 +36,10 @@ export const appConfig: ApplicationConfig = {
     provideToastr(),
     provideRouter(routes),
     provideNzIcons([EyeInvisibleOutline, EyeOutline]),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+  },
   ],
 };

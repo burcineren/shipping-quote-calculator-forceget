@@ -4,9 +4,11 @@ import cors from "cors";
 import authRoutes from "./routes/auth.route";
 import offerRoutes from "./routes/offer.route";
 import dimensionsRoutes from "./routes/dimensions.route";
+import dotenv from "dotenv"
 
+dotenv.config({path: './backend/.env'});
 const app: Application = express();
-const PORT: number = 5500;
+const PORT: number = parseInt(process.env.PORT ?? '5500');
 
 // CORS Options
 const corsOptions = {
@@ -25,9 +27,10 @@ app.use("/api/auth", authRoutes); // Authentication routes
 app.use("/api/dimensions", dimensionsRoutes); 
 app.use("/api/offers", offerRoutes); // Offer management routes
 // MongoDB Connection
+var db:string = process.env.MONGODB_SECRET ?? ''
 mongoose
   .connect(
-    "mongodb+srv://burcineeren:zVYl33mxlMDLgomM@forceget.92g0b.mongodb.net/forceget?retryWrites=true&w=majority&appName=forceget"
+    db
   )
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.error("MongoDB connection error:", error));

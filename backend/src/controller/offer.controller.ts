@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Dimension } from "../models/dimension.model";
-import { calculateBoxCount, calculatePalletCount } from "../utils/calculations.util";
+import { utilCalculateBoxCount, utilCalculatePalletCount } from "../utils/calculations.util";
 import { IOffer, Offer } from "../models/offer.model";
 
 export const createOffer = async (req: Request, res: Response): Promise<void> => {
@@ -12,7 +12,7 @@ export const createOffer = async (req: Request, res: Response): Promise<void> =>
     const pallet = await Dimension.findOne({ type: "Pallet" });
 
     if (!carton || !box || !pallet) {
-      res.status(500).json({ error: "Dimension data is missing from the database." });
+      res.status(404).json({ error: "Dimension data is missing from the database." });
       return;
     }
 
@@ -20,10 +20,10 @@ export const createOffer = async (req: Request, res: Response): Promise<void> =>
     let palletCount: number | null = null;
 
     if (packageType === "Cartons") {
-      boxCount = calculateBoxCount(carton, box);
-      palletCount = calculatePalletCount(box, pallet);
+      boxCount = utilCalculateBoxCount(carton, box);
+      palletCount = utilCalculatePalletCount(box, pallet);
     } else if (packageType === "Boxes") {
-      palletCount = calculatePalletCount(box, pallet);
+      palletCount = utilCalculatePalletCount(box, pallet);
     } else if (packageType === "Pallets") {
       palletCount = 1;
     }

@@ -1,4 +1,4 @@
-export const calculateBoxCount = (carton: any, box: any): number => {
+export const utilCalculateBoxCount = (carton: any, box: any): number => {
     if (!carton || !box) throw new Error("Invalid dimensions for box count calculation.");
     return (
         Math.floor(box.width / carton.width) *
@@ -7,7 +7,7 @@ export const calculateBoxCount = (carton: any, box: any): number => {
     );
 };
 
-export const calculatePalletCount = (box: any, pallet: any): number => {
+export const utilCalculatePalletCount = (box: any, pallet: any): number => {
     if (!box || !pallet) throw new Error("Invalid dimensions for pallet count calculation.");
     return (
         Math.floor(pallet.width / box.width) *

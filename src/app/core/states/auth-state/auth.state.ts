@@ -1,6 +1,6 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { Login, Logout, Register } from './auth.actions';
+import { LoginAction, Logout, RegisterAction } from './auth.actions';
 import { tap } from 'rxjs/operators';
 import { LocalStorageKeysEnum } from '@beng-core/enums/local-storage-keys.enum';
 import { AuthService } from '@beng-core/services/auth.service';
@@ -31,8 +31,8 @@ export class AuthState {
     return state.token;
   }
 
-  @Action(Register)
-  register(ctx: StateContext<AuthStateModel>, action: Register) {
+  @Action(RegisterAction)
+  register(ctx: StateContext<AuthStateModel>, action: RegisterAction) {
     const { email, password, confirmPassword } = action.payload;
 
     return this.authService.register(email, password, confirmPassword).pipe(
@@ -49,8 +49,8 @@ export class AuthState {
     );
   }
 
-  @Action(Login)
-  login(ctx: StateContext<AuthStateModel>, action: Login) {
+  @Action(LoginAction)
+  login(ctx: StateContext<AuthStateModel>, action: LoginAction) {
     const { email, password } = action.payload;
 
     return this.authService.login(email, password).pipe(

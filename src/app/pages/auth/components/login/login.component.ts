@@ -7,7 +7,7 @@ import { Store } from '@ngxs/store';
 import { OrganismLoginFormComponent } from 'src/app/components/organism-login-form/organism-login-form.component';
 import { LoginForm } from 'src/app/types/login-form';
 import { BeValidators } from '@beng-core/utils/form-validators.utils';
-import { Login } from '@beng-core/states/auth-state';
+import { LoginAction } from '@beng-core/states/auth-state';
 
 @Component({
   selector: 'be-login',
@@ -35,7 +35,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-      this.store.dispatch(new Login({ email: email, password })).subscribe({
+      this.store.dispatch(new LoginAction({ email: email, password })).subscribe({
         next: () => {
           this.toastrService.success('Login successful');
           this.router.navigate(['/']);

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Register } from '@beng-core/states/auth-state'; 
+import { RegisterAction } from '@beng-core/states/auth-state'; 
 import { BeValidators } from '@beng-core/utils/form-validators.utils';
 import { Store } from '@ngxs/store';
 import { ToastrService } from 'ngx-toastr';
@@ -41,7 +41,7 @@ export class RegisterComponent {
       return;
     }
 
-    this.store.dispatch(new Register({ email: email!, password: password!, confirmPassword: confirmPassword! })).subscribe({
+    this.store.dispatch(new RegisterAction({ email: email!, password: password!, confirmPassword: confirmPassword! })).subscribe({
       next: () => {
         this.toastrService.success('Registration successful');
         this.router.navigate(['/']);

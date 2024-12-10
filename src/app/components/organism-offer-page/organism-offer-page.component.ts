@@ -77,7 +77,7 @@ export class OrganismOfferPageComponent {
       currency: ['', Validators.required],
     });
 
-    // Ülke filtreleme
+    // Ülke search filtreleme 
     this.formGroup.get('countriesCities')?.valueChanges.subscribe(value => {
       this.filteredCountries = this.filterCountries(value);
     });

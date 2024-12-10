@@ -3,7 +3,7 @@
   "version": "19.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrently \"ng serve\" \"node backend/dist/app.js\"",
     "build": "ng build && npm run transloco:optimize",
     "watch": "ng build --watch --configuration development",
     "format": "prettier --write \"./**/*.{ts,html,scss,css,json}\"",

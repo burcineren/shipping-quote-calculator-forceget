@@ -43,8 +43,16 @@
             "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/assets"],
-            "styles": ["src/styles.scss","node_modules/ngx-toastr/toastr.css", "src/styles.scss","node_modules/ng-zorro-antd/ng-zorro-antd.min.css","node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "node_modules/devextreme/dist/css/dx.light.css"],
+            "assets": [
+              "src/assets"
+            ],
+            "styles": [
+              "node_modules/ngx-toastr/toastr.css",
+              "src/styles.scss",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/devextreme/dist/css/dx.light.css"
+            ],
             "scripts": [],
             "server": "src/main.ts",
             "prerender": false,
@@ -101,14 +109,16 @@
             "polyfills": [],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/assets"],
-            "styles": ["src/styles.scss"],
+            "assets": [
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         }
-        
       }
     }
   }
-  
 }

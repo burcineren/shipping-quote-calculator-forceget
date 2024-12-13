@@ -1,54 +1,34 @@
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-table">
-    <ng-container matColumnDef="mode">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Mode</th>
-      <td mat-cell *matCellDef="let offer">{{ offer.mode }}</td>
-    </ng-container>
 
-    <ng-container matColumnDef="movementType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Movement Type</th>
-      <td mat-cell *matCellDef="let offer">{{ offer.movementType }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="incoterms">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Incoterms</th>
-      <td mat-cell *matCellDef="let offer">{{ offer.incoterms }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="countriesCities">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Countries-Cities</th>
-      <td mat-cell *matCellDef="let offer">{{ offer.countriesCities }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="packageType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Package Type</th>
-      <td mat-cell *matCellDef="let offer">{{ offer.packageType }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="unit1">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit - 1</th>
-      <td mat-cell *matCellDef="let offer">
-        <span *ngIf="offer.palletCount"> {{ offer.palletCount }}</span>
-        {{ offer.unit1 }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="unit2">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit - 2</th>
-      <td mat-cell *matCellDef="let offer">
-        <span *ngIf="offer.palletCount"> {{ offer.palletCount }}</span>
-        {{ offer.unit2 }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="currency">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Currency</th>
-      <td mat-cell *matCellDef="let offer">{{ offer.currency }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-</div>
+<nz-table
+  #offerTable
+  [nzBordered]="true"
+  [nzData]="dataSet"
+  [nzSize]="'middle'"
+  [nzShowPagination]="true"
+  [nzPaginationPosition]="'bottom'"
+  [nzPageSize]="10">
+  <thead>
+    <tr>
+      <th nzWidth="10%">Mode</th>
+      <th nzWidth="15%">Movement Type</th>
+      <th nzWidth="15%">Incoterms</th>
+      <th nzWidth="15%">Countries-Cities</th>
+      <th nzWidth="10%">Package Type</th>
+      <th nzWidth="10%">Unit - 1</th>
+      <th nzWidth="10%">Unit - 2</th>
+      <th nzWidth="10%">Currency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let offer of dataSet">
+      <td>{{ offer.mode }}</td>
+      <td>{{ offer.movementType }}</td>
+      <td>{{ offer.incoterms }}</td>
+      <td>{{ offer.countriesCities }}</td>
+      <td>{{ offer.packageType }}</td>
+      <td>{{ offer.unit1 }} {{ offer.unit1Type }}</td>
+      <td>{{ offer.unit2 }} {{ offer.unit2Type  }}</td>
+      <td>{{ offer.currency }}</td>
+    </tr>
+  </tbody>
+</nz-table>

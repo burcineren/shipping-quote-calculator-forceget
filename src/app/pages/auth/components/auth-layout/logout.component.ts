@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'be-auth-layout',
   standalone: true,
-  templateUrl: './auth-layout.component.html',
+  templateUrl: './logout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet],
 })

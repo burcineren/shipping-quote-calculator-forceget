@@ -1,21 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { OfferService } from '@beng-core/services/offer.service';
-import { NgModule } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatTableDataSource } from '@angular/material/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+
 @Component({
   selector: 'be-organism-offer-list',
   imports: [
     CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatInputModule,
-    
+    NzDividerModule,
+    NzTableModule,
+    NzPaginationModule
   ],
   templateUrl: './organism-offer-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -31,9 +27,9 @@ export class OrganismOfferListComponent {
     'unit2',
     'currency',
   ];
-  dataSource = new MatTableDataSource<any>();
+  dataSet: any[] = [];
 
-  constructor(private offerService: OfferService, private cdr: ChangeDetectorRef) {}
+  constructor(private offerService: OfferService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.fetchOffers();
@@ -42,17 +38,41 @@ export class OrganismOfferListComponent {
   fetchOffers(): void {
     this.offerService.getOffers().subscribe(
       (offers) => {
-        this.dataSource.data = offers;
-        this.cdr.detectChanges(); 
+        this.dataSet = offers.map((offer) => {
+          const carton = { width: 12, length: 12, height: 12 };
+          const box = { width: 24, length: 16, height: 12 };
+          const pallet = { width: 40, length: 48, height: 60 };
+
+          let boxCount: number | null = null;
+          let palletCount: number | null = null;
+
+          if (offer.packageType === "Cartons") {
+            boxCount = Math.floor(box.width / carton.width) *
+              Math.floor(box.length / carton.length) *
+              Math.floor(box.height / carton.height);
+            palletCount = Math.floor(pallet.width / box.width) *
+              Math.floor(pallet.length / box.length) *
+              Math.floor(pallet.height / box.height);
+          } else if (offer.packageType === "Boxes") {
+            palletCount = Math.floor(pallet.width / box.width) *
+              Math.floor(pallet.length / box.length) *
+              Math.floor(pallet.height / box.height);
+          } else if (offer.packageType === "Pallets") {
+            palletCount = 1;
+          }
+
+          return {
+            ...offer,
+            boxCount,
+            palletCount,
+          };
+        });
+
+        this.cdr.detectChanges();
       },
       (error) => {
-        console.error('Error fetching offers:', error);
+        console.error("Error fetching offers:", error);
       }
     );
-  }
-
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

@@ -11,12 +11,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { OfferService } from '@beng-core/services/offer.service';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { calculateCounts } from '@beng-core/utils/calculateCount.utils';
 @Component({
   selector: 'be-organism-offer-page',
   imports: [
@@ -31,11 +26,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     NzInputModule,
     NzButtonModule,
     NzAutocompleteModule,
-    MatFormFieldModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatInputModule,
   ],
   standalone:true,
   templateUrl: './organism-offer-page.component.html',
@@ -72,38 +62,60 @@ export class OrganismOfferPageComponent {
       incoterms: ['', Validators.required],
       countriesCities: ['', Validators.required],
       packageType: ['', Validators.required],
-      unit1: ['', Validators.required],
-      unit2: ['', Validators.required],
+      unit1: ['', Validators.required], 
+      unit1Type: ['', Validators.required], 
+      unit2: ['', Validators.required], 
+      unit2Type: ['', Validators.required], 
       currency: ['', Validators.required],
     });
-
-    // Ülke search filtreleme 
+  
+    // Ülke filtreleme
     this.formGroup.get('countriesCities')?.valueChanges.subscribe(value => {
       this.filteredCountries = this.filterCountries(value);
     });
   }
-
   filterCountries(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.countries.filter(option => option.toLowerCase().includes(filterValue));
   }
 
+ 
   onSubmit(): void {
     if (this.formGroup.valid) {
       const formData = this.formGroup.value;
-
-      this.offerService.createOffer(formData).subscribe(
+      const { boxCount, palletCount } = calculateCounts(
+        formData.packageType,
+        formData.mode
+      );
+  
+      if (formData.mode === "LCL" && palletCount && palletCount >= 24) {
+        alert("For pallet count 24 or more, choose mode FCL.");
+        return;
+      }
+  
+      if (formData.mode === "FCL" && palletCount && palletCount > 24) {
+        alert("Cannot ship more than 24 pallets with FCL.");
+        return;
+      }
+  
+      const payload = {
+        ...formData,
+        boxCount,
+        palletCount,
+      };
+      console.log("payload::",payload);
+      this.offerService.createOffer(payload).subscribe(
         () => {
-          alert('Offer created successfully!');
-          this.router.navigate(['/offer-list']); // Liste sayfasına yönlendir
+          alert("Offer created successfully!");
+          this.router.navigate(["/offer-list"]);
         },
-        error => {
-          console.error('Error creating offer:', error);
-          alert('Failed to create offer.');
+        (error) => {
+          console.error("Error creating offer:", error);
+          alert("Failed to create offer.");
         }
       );
     } else {
-      alert('Please fill all required fields.');
+      alert("Please fill all required fields.");
     }
   }
 }

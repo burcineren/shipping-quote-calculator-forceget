@@ -51,18 +51,26 @@
   <nz-form-item>
     <nz-form-label nzFor="unit1" nzRequired>Unit - 1</nz-form-label>
     <nz-form-control>
-      <nz-select formControlName="unit1" nzPlaceHolder="Select Unit">
-        <nz-option *ngFor="let unit of unit1Options" [nzValue]="unit" [nzLabel]="unit"></nz-option>
-      </nz-select>
+      <div style="display: flex; gap: 10px">
+        <input nz-input formControlName="unit1" placeholder="Enter Unit 1 Value" />
+        <nz-select formControlName="unit1Type" nzPlaceHolder="Select Unit Type">
+          <nz-option nzValue="CM" nzLabel="CM"></nz-option>
+          <nz-option nzValue="IN" nzLabel="IN"></nz-option>
+        </nz-select>
+      </div>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
     <nz-form-label nzFor="unit2" nzRequired>Unit - 2</nz-form-label>
     <nz-form-control>
-      <nz-select formControlName="unit2" nzPlaceHolder="Select Unit">
-        <nz-option *ngFor="let unit of unit2Options" [nzValue]="unit" [nzLabel]="unit"></nz-option>
-      </nz-select>
+      <div style="display: flex; gap: 10px">
+        <input nz-input formControlName="unit2" placeholder="Enter Unit 2 Value" />
+        <nz-select formControlName="unit2Type" nzPlaceHolder="Select Unit Type">
+          <nz-option nzValue="KG" nzLabel="KG"></nz-option>
+          <nz-option nzValue="LB" nzLabel="LB"></nz-option>
+        </nz-select>
+      </div>
     </nz-form-control>
   </nz-form-item>
 

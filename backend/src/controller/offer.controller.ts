@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { Dimension } from "../models/dimension.model";
-import { utilCalculateBoxCount, utilCalculatePalletCount } from "../utils/calculations.util";
+import { calculateBoxCount, calculatePalletCount, convertDimensionsToCm } from "../utils/calculations.util";
 import { IOffer, Offer } from "../models/offer.model";
 
 export const createOffer = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { packageType, mode, ...offerData } = req.body;
+    const { packageType, mode, unit1, unit2, unit1Type, unit2Type, ...offerData } = req.body;
 
     const carton = await Dimension.findOne({ type: "Carton" });
     const box = await Dimension.findOne({ type: "Box" });
@@ -16,14 +16,19 @@ export const createOffer = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
+    const cartonDimensions = convertDimensionsToCm(carton);
+    const boxDimensions = convertDimensionsToCm(box);
+    const palletDimensions = convertDimensionsToCm(pallet);
+
     let boxCount: number | null = null;
     let palletCount: number | null = null;
 
+    // Hesaplama Mantığı
     if (packageType === "Cartons") {
-      boxCount = utilCalculateBoxCount(carton, box);
-      palletCount = utilCalculatePalletCount(box, pallet);
+      boxCount = calculateBoxCount(cartonDimensions, boxDimensions);
+      palletCount = calculatePalletCount(boxDimensions, palletDimensions);
     } else if (packageType === "Boxes") {
-      palletCount = utilCalculatePalletCount(box, pallet);
+      palletCount = calculatePalletCount(boxDimensions, palletDimensions);
     } else if (packageType === "Pallets") {
       palletCount = 1;
     }
@@ -38,7 +43,18 @@ export const createOffer = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    const newOffer: IOffer = new Offer({ ...offerData, mode, packageType, boxCount, palletCount });
+    const newOffer: IOffer = new Offer({
+      ...offerData,
+      mode,
+      packageType,
+      unit1,
+      unit1Type,
+      unit2,
+      unit2Type,
+      boxCount,
+      palletCount,
+    });
+
     const savedOffer = await newOffer.save();
     res.status(201).json(savedOffer);
   } catch (error) {
@@ -46,7 +62,6 @@ export const createOffer = async (req: Request, res: Response): Promise<void> =>
     res.status(500).json({ error: "Failed to create offer" });
   }
 };
-
 export const getOffers = async (req: Request, res: Response): Promise<void> => {
   try {
     const offers = await Offer.find();

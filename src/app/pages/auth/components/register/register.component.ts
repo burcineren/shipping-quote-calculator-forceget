@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { RegisterAction } from '@beng-core/states/auth-state'; 
 import { BeValidators } from '@beng-core/utils/form-validators.utils';
 import { Store } from '@ngxs/store';
-import { ToastrService } from 'ngx-toastr';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { OrganismRegisterFormComponent } from 'src/app/components/organism-register-form/organism-register-form.component';
 import { RegisterForm } from 'src/app/types/register-form';
 
@@ -18,7 +18,7 @@ import { RegisterForm } from 'src/app/types/register-form';
 })
 export class RegisterComponent {
   private router = inject(Router);
-  private toastrService = inject(ToastrService);
+  private notification = inject(NzNotificationService);
   private store = inject(Store);
 
   registerForm: FormGroup<RegisterForm> = new FormGroup({
@@ -30,25 +30,25 @@ export class RegisterComponent {
   onSubmit() {
     this.registerForm.markAllAsTouched();
     if (this.registerForm.invalid) {
-      this.toastrService.error('Please fill out the form correctly.');
+      this.notification.create('error', 'Registration Failed', 'Please fill out the form correctly.');
       return;
     }
 
     const { email, password, confirmPassword } = this.registerForm.value;
 
     if (password !== confirmPassword) {
-      this.toastrService.error('Passwords do not match.');
+      this.notification.create('error', 'Registration Failed', 'Passwords do not match.');
       return;
     }
 
     this.store.dispatch(new RegisterAction({ email: email!, password: password!, confirmPassword: confirmPassword! })).subscribe({
       next: () => {
-        this.toastrService.success('Registration successful');
+        this.notification.create('success', 'Registration Successful', 'You have successfully registered.');
         this.router.navigate(['/']);
       },
       error: (err) => {
         console.error('Dispatch error:', err);
-        this.toastrService.error('Registration failed. Please try again.');
+        this.notification.create('error', 'Registration Failed', 'Registration failed. Please try again.');
       },
     });
   }

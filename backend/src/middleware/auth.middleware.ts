@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt.util';
 
 export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
-
     const authHeader = req.headers.authorization;
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         res.status(401).json({ error: 'Authorization header missing or invalid' });
         return;
@@ -13,12 +13,13 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 
     try {
         const decoded = verifyToken(token);
-        req.body.user = decoded;
+        req.body.user = decoded; 
         next();
     } catch (error) {
         res.status(403).json({ error: 'Invalid or expired token' });
     }
 };
+
 export const unAuth = (req: Request, res: Response, next: NextFunction): void => {
     const authHeader = req.headers.authorization;
 
@@ -34,12 +35,8 @@ export const unAuth = (req: Request, res: Response, next: NextFunction): void =>
         res.status(403).json({
             error: 'You are already authenticated. Logout to perform this action.',
             user: decoded,
-
         });
-        return;
     } catch (error) {
-
         next();
-        return;
     }
 };

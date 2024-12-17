@@ -1,11 +1,13 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { LoginAction, Logout, RegisterAction } from './auth.actions';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { LocalStorageKeysEnum } from '@beng-core/enums/local-storage-keys.enum';
 import { AuthService } from '@beng-core/services/auth.service';
 import { LocalStorageService } from '@beng-core/services/local-storage.service';
 import { AuthStateModel } from './auth-state.type';
+import { throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @State<AuthStateModel>({
   name: 'auth',
@@ -18,7 +20,8 @@ import { AuthStateModel } from './auth-state.type';
 export class AuthState {
   constructor(
     private authService: AuthService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) { }
 
   @Selector()
@@ -66,7 +69,6 @@ export class AuthState {
       })
     );
   }
-
   @Action(Logout)
   logout(ctx: StateContext<AuthStateModel>) {
     return this.authService.logout().pipe(
@@ -75,10 +77,26 @@ export class AuthState {
           token: null,
           isAuthenticated: false,
         };
+
         ctx.setState(defaultState);
 
-        // LocalStorage'dan kaldır
         this.localStorageService.remove(LocalStorageKeysEnum.AUTH_STATE);
+
+
+      }),
+      catchError((error) => {
+        console.error('Logout failed:', error);
+
+        const defaultState: AuthStateModel = {
+          token: null,
+          isAuthenticated: false,
+        };
+        ctx.setState(defaultState);
+
+        this.localStorageService.remove(LocalStorageKeysEnum.AUTH_STATE);
+
+
+        return throwError(() => new Error('Logout failed'));
       })
     );
   }

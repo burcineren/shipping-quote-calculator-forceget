@@ -1,0 +1,15 @@
+<ul nz-menu nzMode="horizontal">
+    <li nz-submenu nzPlacement="bottomRight" nzTitle="Account">
+      <ul>
+        <li *ngIf="!(isAuthenticated$ | async)" nz-menu-item (click)="navigateToLogin()">
+          Login
+        </li>
+        <li *ngIf="!(isAuthenticated$ | async)" nz-menu-item (click)="navigateToRegister()">
+          Register
+        </li>
+        <li *ngIf="isAuthenticated$ | async" nz-menu-item (click)="onLogout()">
+          Logout
+        </li>
+      </ul>
+    </li>
+  </ul>

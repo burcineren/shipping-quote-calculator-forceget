@@ -25,6 +25,7 @@
     "@ant-design/icons-angular": "^19.0.0",
     "@jsverse/transloco": "7.4.1",
     "@ngneat/cashew": "^4.1.0",
+    "@ngneat/transloco": "^6.0.4",
     "@ngxs/storage-plugin": "^19.0.0",
     "@ngxs/store": "^18.0.0",
     "angular-imask": "7.6.1",

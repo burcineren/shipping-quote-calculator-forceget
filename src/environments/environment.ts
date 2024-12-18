@@ -8,6 +8,6 @@ export const environment: ENV = {
   },
   config: {
     secretKey: 'secretKey',
-    localStoragePrefix: 'rm',
+    localStoragePrefix: 'be',
   },
 };
